@@ -9,6 +9,560 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Code+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
+    --bg:#0B0B0C;
+    --panel:#151516;
+    --panel-2:#1D1D1E;
+    --border:#2C2C2D;
+    --border-soft:#242425;
+    --text:#F2F2F0;
+    --text-dim:#A3A3A0;
+    --text-faint:#696965;
+    --accent:#FFFFFF;
+    --accent-soft:#202021;
+    --amber:#B7B7B2;
+    --amber-soft:#1D1D1E;
+    --radius:9px;
+    --radius-sm:6px;
+    --shadow:0 1px 2px rgba(0,0,0,0.35), 0 6px 18px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Source Code Pro',monospace;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .mono{font-family:'Source Code Pro',monospace;}
+  .serif{font-family:'Fraunces',serif;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- header ---------- */
+  header.site{border-bottom:1px solid var(--border-soft);padding:22px 0;background:var(--panel);}
+  header.site .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+  .brand{font-family:'Source Code Pro',monospace;font-size:13.5px;color:var(--text-dim);}
+  .brand strong{color:var(--text);font-weight:600;}
+  nav.links{display:flex;gap:24px;font-size:14px;}
+  nav.links a{text-decoration:none;color:var(--text-dim);border-bottom:1px solid transparent;padding-bottom:2px;transition:color .15s, border-color .15s;}
+  nav.links a:hover{color:var(--accent);border-color:var(--accent);}
+
+  /* ---------- hero ---------- */
+  .hero{padding:76px 0 54px;background:var(--panel);border-bottom:1px solid var(--border-soft);}
+  .hero .grid{display:grid;grid-template-columns:1.15fr 1fr;gap:60px;align-items:start;}
+  .hero h1{
+    font-family:'Fraunces',serif;font-weight:600;font-size:42px;line-height:1.18;margin:0 0 16px;
+    letter-spacing:-0.01em;
+  }
+  .hero p.lede{color:var(--text-dim);font-size:17px;max-width:48ch;margin:0 0 28px;}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{display:inline-block;padding:11px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;text-decoration:none;border:1px solid var(--border);transition:all .15s;}
+  .btn.primary{background:var(--accent);color:#0B0B0C;border-color:var(--accent);}
+  .btn.primary:hover{background:#D8D8D5;}
+  .btn.ghost{color:var(--text);background:var(--panel);}
+  .btn.ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+  .terminal{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius);
+    font-family:'Source Code Pro',monospace;font-size:13.5px;color:var(--text-dim);
+    padding:22px 24px;box-shadow:var(--shadow);
+  }
+  .terminal .tbar{display:flex;gap:6px;margin-bottom:16px;}
+  .terminal .tdot{width:9px;height:9px;border-radius:50%;background:var(--border);}
+  .terminal .line{margin:0 0 7px;white-space:pre-wrap;}
+  .terminal .prompt{color:var(--accent);font-weight:600;}
+  .terminal .ok{color:var(--accent);}
+  .terminal .pending{color:var(--amber);}
+  .cursor{display:inline-block;width:7px;height:14px;background:var(--accent);vertical-align:middle;animation:blink 1s steps(1) infinite;margin-left:2px;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---------- stats bar ---------- */
+  .stats{background:var(--panel);border-bottom:1px solid var(--border-soft);}
+  .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);}
+  .stat{padding:24px 28px;border-right:1px solid var(--border-soft);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:'Fraunces',serif;font-size:28px;color:var(--text);font-weight:600;}
+  .stat .lbl{font-size:13px;color:var(--text-dim);margin-top:4px;}
+
+  /* ---------- section ---------- */
+  .section{padding:60px 0;}
+  .section-head{margin-bottom:30px;}
+  .section-head h2{font-family:'Fraunces',serif;font-size:25px;margin:0 0 9px;font-weight:600;}
+  .section-head p{color:var(--text-dim);font-size:15px;margin:0;max-width:64ch;}
+
+  /* ---------- project cards ---------- */
+  .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+  .card{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .15s, border-color .15s;
+  }
+  .card:hover{box-shadow:var(--shadow);border-color:#D3DBE0;}
+  .card .accent-bar{height:3px;width:100%;}
+  .accent-soc{background:var(--accent);}
+  .accent-redteam{background:#BDBDB8;}
+  .accent-theory{background:var(--amber);}
+  .accent-highlight{background:#797974;}
+
+  .visual{
+    height:104px;border-bottom:1px dashed var(--border);
+    display:flex;align-items:center;justify-content:center;background:var(--panel-2);
+    color:var(--text-faint);font-family:'Source Code Pro',monospace;font-size:11.5px;
+  }
+  .visual span{background:var(--panel);padding:4px 9px;border:1px dashed var(--border);border-radius:var(--radius-sm);}
+  .visual img{width:100%;height:100%;object-fit:cover;}
+
+  .card-body{padding:17px 19px 19px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .card-meta{display:flex;align-items:center;gap:7px;font-family:'Source Code Pro',monospace;font-size:11px;color:var(--text-dim);}
+  .card-body h3{font-size:15.5px;margin:0;font-weight:600;line-height:1.35;}
+  .card-body p{font-size:13.5px;color:var(--text-dim);margin:0;flex:1;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .tag{font-family:'Source Code Pro',monospace;font-size:10.5px;color:var(--text-dim);border:1px solid var(--border);padding:3px 8px;border-radius:var(--radius-sm);background:var(--panel-2);}
+  .card-link{font-size:13px;color:var(--accent);text-decoration:none;margin-top:2px;font-weight:500;}
+  .card-link:hover{text-decoration:underline;}
+
+  /* ---------- status dots ---------- */
+  .dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
+  .dot.complete{background:var(--accent);}
+  .dot.progress{background:var(--amber);}
+  .dot.planned{background:var(--text-faint);}
+  .legend{display:flex;gap:18px;font-size:12.5px;color:var(--text-dim);margin-bottom:20px;flex-wrap:wrap;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+
+  /* ---------- controls ---------- */
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:22px;justify-content:space-between;}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-family:'Source Code Pro',monospace;font-size:12.5px;padding:7px 14px;border-radius:999px;border:1px solid var(--border);color:var(--text-dim);cursor:pointer;background:var(--panel);}
+  .chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+  .right-controls{display:flex;gap:10px;align-items:center;}
+  .search{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Source Code Pro',monospace;font-size:13px;padding:9px 13px;min-width:220px;}
+  .search::placeholder{color:var(--text-faint);}
+  .text-btn{font-family:'Source Code Pro',monospace;font-size:12px;color:var(--text-dim);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;}
+  .text-btn:hover{color:var(--accent);}
+
+  /* ---------- collapsible groups ---------- */
+  .group{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+  .group summary{
+    list-style:none;cursor:pointer;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  }
+  .group summary::-webkit-details-marker{display:none;}
+  .group summary .ghead{display:flex;align-items:center;gap:12px;}
+  .group summary .chevron{
+    width:8px;height:8px;border-right:1.5px solid var(--text-dim);border-bottom:1.5px solid var(--text-dim);
+    transform:rotate(-45deg);transition:transform .15s;flex-shrink:0;
+  }
+  .group[open] summary .chevron{transform:rotate(45deg);}
+  .group summary .gtitle{font-weight:600;font-size:14.5px;}
+  .group summary .gcount{font-family:'Source Code Pro',monospace;font-size:12px;color:var(--text-faint);}
+  .group summary .gdots{display:flex;gap:5px;align-items:center;}
+  .group .gcontent{padding:0 20px 20px;border-top:1px solid var(--border-soft);}
+  .group .gcontent .grid-cards{margin-top:18px;}
+
+  .empty-note{color:var(--text-faint);font-family:'Source Code Pro',monospace;font-size:13px;padding:30px 0;}
+
+  /* ---------- certs ---------- */
+  .cert-chip{font-size:13px;padding:7px 14px;border-radius:999px;}
+  .cert-chip.pending{color:var(--amber);border-color:var(--amber);background:var(--amber-soft);}
+  .cert-chip.done{color:var(--accent);border-color:var(--accent);background:var(--accent-soft);}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--border-soft);padding:36px 0 60px;color:var(--text-dim);font-size:14px;background:var(--panel);}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+  footer a{text-decoration:none;color:var(--text-dim);}
+  footer a:hover{color:var(--accent);}
+
+  @media (max-width:820px){
+    .hero .grid{grid-template-columns:1fr;gap:34px;}
+    .stats .wrap{grid-template-columns:repeat(2,1fr);}
+    .stat{border-bottom:1px solid var(--border-soft);}
+  }
+  @media (max-width:520px){
+    .hero h1{font-size:32px;}
+    nav.links{gap:14px;font-size:13px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand mono"><strong>YOUR_NAME</strong> — network infra / red team</div>
+    <nav class="links">
+      <a href="#projects">Projects</a>
+      <a href="#labs">Labs</a>
+      <a href="#certs">Certifications</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap grid">
+    <div>
+      <h1>Building and breaking enterprise networks, in public.</h1>
+      <p class="lede">4th-year computer networking student working toward network infrastructure and red-team roles. Every lab below is real, documented, and includes what failed along the way.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener">View GitHub</a>
+        <a class="btn ghost" href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn ghost" href="mailto:YOUR_EMAIL">Email</a>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="tbar"><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></div>
+      <p class="line"><span class="prompt">$</span> whoami</p>
+      <p class="line">YOUR_NAME — network infrastructure specialist (in training)</p>
+      <p class="line">&nbsp;</p>
+      <p class="line"><span class="prompt">$</span> status --certs</p>
+      <p class="line"><span class="ok">[OK]</span> Fortinet NSE1</p>
+      <p class="line"><span class="ok">[OK]</span> Fortinet NSE2</p>
+      <p class="line"><span class="ok">[OK]</span> Fortinet NSE3</p>
+      <p class="line"><span class="pending">[..]</span> Fortinet NSE4 — in progress</p>
+      <p class="line"><span class="pending">[..]</span> CCNA — self-study, exam pending</p>
+      <p class="line">&nbsp;</p>
+      <p class="line"><span class="prompt">$</span> status --focus</p>
+      <p class="line">network infrastructure · red team fundamentals<span class="cursor"></span></p>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="wrap">
+    <div class="stat"><div class="num" id="statSoc">30</div><div class="lbl">enterprise/SOC labs</div></div>
+    <div class="stat"><div class="num" id="statRed">36</div><div class="lbl">C / red-team labs</div></div>
+    <div class="stat"><div class="num" id="statTheory">14</div><div class="lbl">modules with practical labs</div></div>
+    <div class="stat"><div class="num" id="statDone">—</div><div class="lbl">marked complete</div></div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Projects</h2>
+      <p>Four ongoing bodies of work. Each links to its full repository — the cards below are the flagship pieces, the collapsible groups further down are everything underneath them.</p>
+    </div>
+    <div class="grid-cards" id="projectGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="labs">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Labs &amp; Modules</h2>
+      <p>Grouped by phase or track and collapsed by default — expand a group to see the labs inside it. Status is marked per card, so nothing here pretends to be finished before it is.</p>
+    </div>
+
+    <div class="legend">
+      <span><span class="dot complete"></span> complete</span>
+      <span><span class="dot progress"></span> in progress</span>
+      <span><span class="dot planned"></span> planned</span>
+    </div>
+
+    <div class="controls">
+      <div class="filters" id="filterChips"></div>
+      <div class="right-controls">
+        <button class="text-btn" id="expandAll">expand all</button>
+        <button class="text-btn" id="collapseAll">collapse all</button>
+        <input class="search mono" id="searchBox" type="text" placeholder="search labs / modules...">
+      </div>
+    </div>
+
+    <div id="labGroups"></div>
+    <div class="empty-note" id="emptyNote" style="display:none;">No labs match that search — try clearing it.</div>
+  </div>
+</section>
+
+<section class="section" id="certs">
+  <div class="wrap">
+    <div class="section-head"><h2>Certifications</h2></div>
+    <div class="tags" style="gap:10px;">
+      <span class="tag cert-chip done">Fortinet NSE1</span>
+      <span class="tag cert-chip done">Fortinet NSE2</span>
+      <span class="tag cert-chip done">Fortinet NSE3</span>
+      <span class="tag cert-chip pending">Fortinet NSE4 — in progress</span>
+      <span class="tag cert-chip pending">CCNA — self-study</span>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="mono">© <span id="year"></span> YOUR_NAME</div>
+    <div style="display:flex;gap:18px;">
+      <a href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="YOUR_YOUTUBE_LINK" target="_blank" rel="noopener">YouTube</a>
+      <a href="mailto:YOUR_EMAIL">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============================================================
+   HOW TO USE THIS FILE
+   - Replace every YOUR_NAME / YOUR_USERNAME / YOUR_LINKEDIN /
+     YOUR_EMAIL / YOUR_YOUTUBE_LINK placeholder (search for "YOUR_").
+   - Each card has a `link` field — point it at the exact GitHub
+     folder for that lab once the repo exists.
+   - Each card has a `status` field: "complete" | "progress" | "planned".
+     Flip it as you finish real labs — the dot color, the group
+     counts, and the "marked complete" stat all update automatically.
+   - To add a real screenshot to a card, set its `img` field to a
+     path like "screenshots/lab-01.png" and put that image in a
+     /screenshots folder next to this HTML file — it replaces the
+     dashed placeholder box automatically.
+   ============================================================ */
+
+const PROJECTS = [
+  { accent:'highlight', title:'Portfolio Highlights', tags:['case studies'],
+    desc:'Polished write-ups of the two strongest finished pieces: the Atlas Logistics enterprise design and the netkit red-team toolkit.',
+    link:'https://github.com/YOUR_USERNAME/portfolio-highlights', img:null },
+  { accent:'soc', title:'Enterprise Network & SOC Labs', tags:['30 labs','networking','SOC'],
+    desc:'One fictional company, growing across 30 labs and seven phases — from a 30-user office build to a full SOC and incident response operation.',
+    link:'https://github.com/YOUR_USERNAME/enterprise-network-soc-labs', img:null },
+  { accent:'redteam', title:'C for Red Teamers', tags:['36 labs','C','sockets'],
+    desc:'Systems programming from first principles through raw sockets, ending in a capstone reconnaissance tool, netkit.',
+    link:'https://github.com/YOUR_USERNAME/c-for-redteamers', img:null },
+  { accent:'theory', title:'Networking Modules with Practical Labs', tags:['14 modules','CCNA','NSE4'],
+    desc:'Beginner-to-intermediate networking course, 65 lessons across 14 modules — each pairing theory with a hands-on lab — built for CCNA/NSE4 readiness with Gulf-relevant content throughout.',
+    link:'https://github.com/YOUR_USERNAME/networking-theory-course', img:null },
+];
+
+const SOC_LABS = [
+["Phase 1 — Build the Network","Lab 01 — Build, Address & Troubleshoot a Small Enterprise","OSI/TCP-IP, subnetting, DHCP, DNS basics for a 30-user office.",["Packet Tracer","Wireshark"]],
+["Phase 1 — Build the Network","Lab 02 — VLANs, Trunks & Inter-VLAN Routing","Segmenting a 100-employee network with access/trunk ports and router-on-a-stick.",["Packet Tracer"]],
+["Phase 1 — Build the Network","Lab 03 — Routing: Static → OSPF → Failure","Three-site routing with deliberate link failures to trace path changes.",["Packet Tracer","Wireshark"]],
+["Phase 1 — Build the Network","Lab 04 — DHCP, DNS, NAT & Internet Edge","Building a realistic internet edge and diagnosing an unreachable public server.",["GNS3","Linux"]],
+["Phase 1 — Build the Network","Lab 05 — Network Services & Packet Analysis","Reading DNS, DHCP, ARP and TCP handshakes directly from captured traffic.",["Wireshark","tcpdump"]],
+["Phase 1 — Build the Network","Lab 06 — Enterprise Troubleshooting War Room","10–15 injected faults across a working topology, diagnosed from a single vague ticket.",["GNS3","Cisco CLI"]],
+["Phase 2 — Secure the Enterprise","Lab 07 — Enterprise Segmentation & ACL Engineering","Writing the access policy before implementing DMZ/LAN/mgmt/guest segmentation.",["GNS3","Cisco IOS"]],
+["Phase 2 — Secure the Enterprise","Lab 08 — Firewall Engineering","Turning an overly permissive firewall into a production-ready one.",["pfSense","Nmap"]],
+["Phase 2 — Secure the Enterprise","Lab 09 — VPN & Secure Remote Access","Site-to-site IPsec/WireGuard between two offices, then breaking and fixing it.",["GNS3","strongSwan"]],
+["Phase 2 — Secure the Enterprise","Lab 10 — Enterprise Network Hardening","SSH-only management, port security, BPDU Guard, DHCP snooping baseline.",["Cisco IOS","Nmap"]],
+["Phase 3 — Recon & Vuln Mgmt","Lab 11 — Attack Surface Discovery","Authorized recon against the company's own external footprint.",["Nmap","dig"]],
+["Phase 3 — Recon & Vuln Mgmt","Lab 12 — Vulnerability Management","Ranking findings by criticality × exposure × business impact, not just CVSS.",["OpenVAS","Nmap"]],
+["Phase 3 — Recon & Vuln Mgmt","Lab 13 — Web Application Security","Auth, injection, XSS and session issues in an intentionally vulnerable app.",["Burp Suite","OWASP Juice Shop"]],
+["Phase 3 — Recon & Vuln Mgmt","Lab 14 — Phishing → Credential Theft → Investigation","Reading headers, SPF/DKIM/DMARC and malicious URLs from a simulated phish.",["CyberChef","Wireshark"]],
+["Phase 3 — Recon & Vuln Mgmt","Lab 15 — Authentication & Identity Security","RBAC, password policy and investigating suspicious login activity.",["Linux","PowerShell"]],
+["Phase 4 — SOC Engineering","Lab 16 — Build a Mini SOC","Agents, log collection and dashboards feeding a real SIEM.",["Wazuh","Sysmon"]],
+["Phase 4 — SOC Engineering","Lab 17 — Wireshark Incident Investigation","Reconstructing a timeline from a deliberately dense PCAP.",["Wireshark","tshark"]],
+["Phase 4 — SOC Engineering","Lab 18 — Zeek Network Monitoring","Connection, DNS and TLS telemetry piped into the SOC stack.",["Zeek","Wazuh"]],
+["Phase 4 — SOC Engineering","Lab 19 — Suricata IDS/IPS","Signatures, alerts and false-positive tuning, IDS vs IPS placement.",["Suricata"]],
+["Phase 4 — SOC Engineering","Lab 20 — Detection Engineering","Writing real detections for suspicious PowerShell, auth anomalies and scans.",["Sigma","Wazuh"]],
+["Phase 5 — Incident Response","Lab 21 — Compromised Linux Server","Forensic investigation via processes, auth logs, and network connections.",["Linux","Wazuh"]],
+["Phase 5 — Incident Response","Lab 22 — Compromised Windows Endpoint","Reconstructing a timeline from Sysmon, PowerShell logs and Event Viewer.",["Sysmon","Wazuh"]],
+["Phase 5 — Incident Response","Lab 23 — Ransomware Incident Simulation","Full IR exercise from initial access to containment and recovery strategy.",["Wazuh","SIEM"]],
+["Phase 5 — Incident Response","Lab 24 — Data Exfiltration Investigation","Tracing unusual outbound volume and destinations across DNS/firewall/Zeek logs.",["Zeek","Wireshark"]],
+["Phase 6 — Architecture","Lab 25 — Redesign a Bad Corporate Network","Taking a flat, unsegmented network to a defensible zoned architecture.",["GNS3","pfSense"]],
+["Phase 6 — Architecture","Lab 26 — Zero Trust Remote Workforce","Identity-based access design for a 40%-remote workforce.",["VPN","IAM concepts"]],
+["Phase 6 — Architecture","Lab 27 — FortiGate Enterprise Firewall Lab","Interfaces, policies, NAT and VPN on real FortiGate configuration.",["FortiGate"]],
+["Phase 6 — Architecture","Lab 28 — Security Operations From Network to SIEM","The full telemetry pipeline: network → Zeek/Suricata → Wazuh → analyst.",["Zeek","Suricata","Wazuh"]],
+["Phase 7 — Capstone","Lab 29 — Attack, Detect & Respond","Detect → investigate → contain → recover against an undisclosed attack path.",["Full stack"]],
+["Phase 7 — Capstone","Lab 30 — Build & Operate a Secure Enterprise (Atlas Logistics)","150-employee company, three simulated incidents, full network + SOC operation.",["Full stack"]],
+];
+
+const C_LABS = [
+["Track 1 — Foundations","Lab 01 — cinfo","gcc pipeline, stdio basics.",["C"]],
+["Track 1 — Foundations","Lab 02 — typemap","Types, sizeof, stdint.",["C"]],
+["Track 1 — Foundations","Lab 03 — bitview","Bitwise operations, binary output.",["C"]],
+["Track 1 — Foundations","Lab 04 — flagparser","Control flow, argv handling.",["C"]],
+["Track 1 — Foundations","Lab 05 — numutils","Functions, headers, Makefile basics.",["C","Make"]],
+["Track 1 — Foundations","Lab 06 — memtable","Arrays, C strings, string.h.",["C"]],
+["Track 1 — Foundations","Lab 07 — ptrdemo","Pointers, pointer arithmetic, NULL handling.",["C"]],
+["Track 1 — Foundations","Lab 08 — argsort","Function pointers and callbacks.",["C"]],
+["Track 2 — Memory","Lab 09 — heapvis","malloc/free and heap layout.",["C"]],
+["Track 2 — Memory","Lab 10 — dynarr","Dynamic arrays, realloc.",["C"]],
+["Track 2 — Memory","Lab 11 — strbuilder","Heap strings, snprintf, va_list.",["C"]],
+["Track 2 — Memory","Lab 12 — memcheck","Valgrind, ASan, gdb debugging.",["Valgrind","gdb"]],
+["Track 2 — Memory","Lab 13 — linkedlist","struct-based linked data structures.",["C"]],
+["Track 2 — Memory","Lab 14 — hashmap","Hash tables, FNV-1a, chaining.",["C"]],
+["Track 3 — Files & I/O","Lab 15 — filereader","fopen/fread, binary mode.",["C"]],
+["Track 3 — Files & I/O","Lab 16 — confparser","strtok-based INI state machine.",["C"]],
+["Track 3 — Files & I/O","Lab 17 — logger","va_list, log levels, time.h.",["C"]],
+["Track 3 — Files & I/O","Lab 18 — procmap","/proc, getenv, process memory.",["C","Linux"]],
+["Track 3 — Files & I/O","Lab 19 — hexdump","union types, endianness, ELF header.",["C"]],
+["Track 3 — Files & I/O","Lab 20 — argengine","getopt_long, CLI engine design.",["C"]],
+["Track 4 — Systems","Lab 21 — sysinfo","uname, getuid, sysconf.",["POSIX"]],
+["Track 4 — Systems","Lab 22 — forklab","fork/exec, waitpid.",["POSIX"]],
+["Track 4 — Systems","Lab 23 — pipechain","pipe(), dup2(), IPC.",["POSIX"]],
+["Track 4 — Systems","Lab 24 — sighandler","sigaction, signal safety.",["POSIX"]],
+["Track 4 — Systems","Lab 25 — mmaplab","mmap, mprotect.",["POSIX"]],
+["Track 4 — Systems","Lab 26 — threadpool","pthreads, mutexes, condition variables.",["pthreads"]],
+["Track 5 — Networking","Lab 27 — rawsock","socket(), connect(), TCP client.",["Sockets"]],
+["Track 5 — Networking","Lab 28 — echoserver","bind/listen/accept, TCP server.",["Sockets"]],
+["Track 5 — Networking","Lab 29 — udpscanner","UDP and DNS wire format.",["Sockets"]],
+["Track 5 — Networking","Lab 30 — portscan","Non-blocking sockets, select/poll.",["Sockets"]],
+["Track 5 — Networking","Lab 31 — httpfetch","Raw HTTP/1.1 client.",["Sockets"]],
+["Track 5 — Networking","Lab 32 — bannergrb","Banner grabbing and service fingerprinting.",["Sockets"]],
+["Track 6 — Intermediate","Lab 33 — errhandle","errno, perror, goto cleanup.",["C"]],
+["Track 6 — Intermediate","Lab 34 — plugin","dlopen, dlsym, LD_PRELOAD.",["C"]],
+["Track 6 — Intermediate","Lab 35 — secbuf","Secure coding and input validation.",["C"]],
+["Track 6 — Intermediate","Lab 36 — makefile-pro","Advanced Makefiles, cppcheck.",["Make","cppcheck"]],
+];
+
+const THEORY_MODS = [
+["Foundations","Module 0 — Setup & Mindset (with Practical Lab)","Lab tooling, expectations, first CLI checks.",["Packet Tracer"]],
+["Foundations","Module 1 — How the Internet Works (with Practical Lab)","Encapsulation, protocols, RFCs, packet vs frame.",["Wireshark"]],
+["Foundations","Module 2 — The Physical World (with Practical Lab)","Media types, signals/noise, hubs vs switches vs routers.",["Cabling"]],
+["Layer 2","Module 3 — Ethernet & Switching (with Practical Lab)","MAC, CAM tables, VLANs, STP, ARP.",["Packet Tracer"]],
+["Layer 3","Module 4 — IP Addressing & Subnetting (with Practical Lab)","Binary, CIDR, subnetting, VLSM, DHCP.",["Subnetting"]],
+["Layer 3","Module 5 — IP in Depth (with Practical Lab)","TTL, ICMP, NAT/PAT, MTU & fragmentation.",["Wireshark"]],
+["Routing","Module 6 — Routing (with Practical Lab)","Static, OSPF, BGP concepts, HSRP/VRRP, summarization.",["Packet Tracer"]],
+["Transport","Module 7 — TCP and UDP (with Practical Lab)","Handshakes, flags, congestion control, Nmap scanning.",["Wireshark","Nmap"]],
+["Application","Module 8 — Application Layer Protocols (with Practical Lab)","DNS, HTTP/S, email protocols, SSH, FTP.",["curl","dig"]],
+["Security","Module 9 — Network Security Fundamentals (with Practical Lab)","Firewalls, VPN, IDS/IPS, hardening, monitoring.",["FortiGate"]],
+["Wireless","Module 10 — Wireless Networking (with Practical Lab)","802.11 standards, WPA2/WPA3, site design, troubleshooting.",["WiFi"]],
+["WAN","Module 11 — Wide Area Networks (with Practical Lab)","MPLS vs SD-WAN, ISP connectivity, NAT troubleshooting.",["SD-WAN"]],
+["Design","Module 12 — Network Design & Architecture (with Practical Lab)","9-step methodology, small/enterprise/cloud design, docs.",["draw.io"]],
+["Operations","Module 13 — Troubleshooting Methodology (with Practical Lab)","Structured framework, common scenarios, Wireshark-only diagnosis.",["Wireshark"]],
+];
+
+function buildLabs(list, project, accent){
+  return list.map(([phase,title,desc,tags])=>({
+    project, accent, phase, title, desc, tags,
+    status:'planned', img:null,
+    link:'https://github.com/YOUR_USERNAME/REPLACE_REPO'
+  }));
+}
+
+const LABS = [
+  ...buildLabs(SOC_LABS,'soc','soc'),
+  ...buildLabs(C_LABS,'redteam','redteam'),
+  ...buildLabs(THEORY_MODS,'theory','theory'),
+];
+
+function statusDotClass(s){ return s==='complete' ? 'complete' : (s==='progress' ? 'progress' : 'planned'); }
+function statusLabel(s){ return s==='complete' ? 'Complete' : (s==='progress' ? 'In progress' : 'Planned'); }
+
+function visualHTML(img){
+  if(img){ return `<img src="${img}" alt="">`; }
+  return `<span>add screenshot</span>`;
+}
+
+function cardHTML(l){
+  return `
+    <article class="card">
+      <div class="accent-bar accent-${l.accent}"></div>
+      <div class="visual">${visualHTML(l.img)}</div>
+      <div class="card-body">
+        <div class="card-meta"><span class="dot ${statusDotClass(l.status)}"></span><span>${statusLabel(l.status)}</span></div>
+        <h3>${l.title}</h3>
+        <p>${l.desc}</p>
+        <div class="tags">${l.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        <a class="card-link" href="${l.link}" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </article>`;
+}
+
+function renderProjects(){
+  document.getElementById('projectGrid').innerHTML = PROJECTS.map(p=>`
+    <article class="card">
+      <div class="accent-bar accent-${p.accent}"></div>
+      <div class="visual" style="height:126px;">${visualHTML(p.img)}</div>
+      <div class="card-body">
+        <div class="tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <a class="card-link" href="${p.link}" target="_blank" rel="noopener">View repository</a>
+      </div>
+    </article>`).join('');
+}
+
+let activeFilter = 'all';
+let activeQuery = '';
+
+function renderFilters(){
+  const groups = [
+    {id:'all', label:'All'},
+    {id:'soc', label:'SOC Labs (30)'},
+    {id:'redteam', label:'C / Red Team (36)'},
+    {id:'theory', label:'Modules with Practical Labs (14)'},
+  ];
+  const el = document.getElementById('filterChips');
+  el.innerHTML = groups.map(g=>`<button class="chip mono" data-id="${g.id}" aria-pressed="${g.id===activeFilter}">${g.label}</button>`).join('');
+  el.querySelectorAll('.chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ activeFilter = btn.dataset.id; renderFilters(); renderLabs(); });
+  });
+}
+
+function renderLabs(){
+  const q = activeQuery.trim().toLowerCase();
+  const projectsToShow = activeFilter==='all' ? ['soc','redteam','theory'] : [activeFilter];
+  let totalVisible = 0;
+  let html = '';
+
+  projectsToShow.forEach(projKey=>{
+    const projLabs = LABS.filter(l=>l.project===projKey);
+    const phaseOrder = [];
+    const byPhase = {};
+    projLabs.forEach(l=>{
+      if(!byPhase[l.phase]){ byPhase[l.phase]=[]; phaseOrder.push(l.phase); }
+      byPhase[l.phase].push(l);
+    });
+
+    phaseOrder.forEach(phase=>{
+      let cards = byPhase[phase];
+      if(q){
+        cards = cards.filter(l=> l.title.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q) || l.tags.join(' ').toLowerCase().includes(q));
+      }
+      if(cards.length===0) return;
+      totalVisible += cards.length;
+      const complete = cards.filter(c=>c.status==='complete').length;
+      const progress = cards.filter(c=>c.status==='progress').length;
+      const openAttr = q ? 'open' : '';
+      html += `
+        <details class="group" ${openAttr}>
+          <summary>
+            <div class="ghead">
+              <span class="chevron"></span>
+              <span class="gtitle">${phase}</span>
+              <span class="gcount mono">${cards.length} lab${cards.length>1?'s':''}${complete?` · ${complete} complete`:''}${progress?` · ${progress} in progress`:''}</span>
+            </div>
+          </summary>
+          <div class="gcontent">
+            <div class="grid-cards">${cards.map(cardHTML).join('')}</div>
+          </div>
+        </details>`;
+    });
+  });
+
+  document.getElementById('labGroups').innerHTML = html;
+  document.getElementById('emptyNote').style.display = totalVisible ? 'none' : 'block';
+}
+
+function renderStats(){
+  document.getElementById('statDone').textContent = LABS.filter(l=>l.status==='complete').length;
+}
+
+document.getElementById('searchBox').addEventListener('input', (e)=>{
+  activeQuery = e.target.value;
+  renderLabs();
+});
+document.getElementById('expandAll').addEventListener('click', ()=>{
+  document.querySelectorAll('#labGroups details').forEach(d=>d.open=true);
+});
+document.getElementById('collapseAll').addEventListener('click', ()=>{
+  document.querySelectorAll('#labGroups details').forEach(d=>d.open=false);
+});
+
+renderProjects();
+renderFilters();
+renderLabs();
+renderStats();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Portfolio — Network Infrastructure & Red Team Labs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Code+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
     --bg:#F5F7F8;
     --panel:#FFFFFF;
     --panel-2:#F0F3F4;
